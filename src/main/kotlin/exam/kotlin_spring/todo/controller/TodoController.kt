@@ -1,35 +1,43 @@
 package exam.kotlin_spring.todo.controller
 
 import exam.kotlin_spring.todo.service.TodoService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/todos")
-class TodoController @Autowired constructor(
-    val todoService:TodoService
+class TodoController(
+    private val todoService: TodoService
 ) {
     @GetMapping("")
-    fun main():MutableMap<Int,String>{
+    fun main(): Map<Int, String> {
         return todoService.getAll()
     }
+
     @PostMapping("")
-    fun post(@RequestBody todoMap:MutableMap<String,Any>){
-        todoService.post(todoMap.get("todo") as String)
+    fun post(@RequestBody payload: Map<String, Any>) {
+        val todo = extractString(payload, "todo")
+        todoService.post(todo)
     }
+
     @PutMapping("")
-    fun put(@RequestBody todoMap:MutableMap<String,Any>){
-        todoService.put(todoMap.get("key")as Int,todoMap.get("todo") as String)
+    fun put(@RequestBody payload: Map<String, Any>) {
+        val key = extractInt(payload, "key")
+        val todo = extractString(payload, "todo")
+        todoService.put(key, todo)
     }
+
     @DeleteMapping("")
-    fun delete(@RequestBody todoMap:MutableMap<String,Any>){
-        todoService.delete(todoMap.get("key") as Int)
+    fun delete(@RequestBody payload: Map<String, Any>) {
+        val key = extractInt(payload, "key")
+        todoService.delete(key)
+    }
+
+    // 공통 데이터 추출 기능: 캐스팅 로직을 한곳에 집중
+    private fun extractString(payload: Map<String, Any>, key: String): String {
+        return payload[key] as? String ?: throw IllegalArgumentException("$key must be provided as a String")
+    }
+
+    private fun extractInt(payload: Map<String, Any>, key: String): Int {
+        return payload[key] as? Int ?: throw IllegalArgumentException("$key must be provided as an Int")
     }
 }
