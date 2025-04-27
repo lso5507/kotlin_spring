@@ -10,22 +10,28 @@ class TodoService @Autowired constructor(
     /**
      * 등록
      */
-    fun post():Unit{
-
+    fun post(todo:String):Unit{
+        todoRepository.post(todo)
     }
 
     /**
      * 목록가져오기
      */
-    fun getAll():Unit{}
+    fun getAll():MutableMap<Int,String>{
+        return todoRepository.getAll()
+    }
 
     /**
      * 수정
      */
-    fun put():Unit{}
+    fun put(key:Int,todo:String):Unit{
+        todoRepository.put(key,todo)
+    }
 
     /**
      * 삭제
      */
-    fun delete():Unit{}
+    fun delete(key:Int):Unit{
+        todoRepository.delete(key)
+    }
 }
