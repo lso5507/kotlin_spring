@@ -2,7 +2,6 @@ package exam.kotlin_spring.todo.repository
 
 import org.springframework.stereotype.Repository
 
-@Repository
 class TodoMemoryRepository : TodoRepository {
 
     companion object {

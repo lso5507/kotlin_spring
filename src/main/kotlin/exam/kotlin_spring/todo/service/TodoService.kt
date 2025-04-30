@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class TodoService @Autowired constructor(
-    val todoRepository: TodoRepository) {
+class TodoService
+     {
+     @Autowired
+     lateinit var  todoRepository: TodoRepository
     /**
      * 등록
      */
