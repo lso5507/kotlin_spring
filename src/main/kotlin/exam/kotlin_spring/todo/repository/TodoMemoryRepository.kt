@@ -15,8 +15,8 @@ class TodoMemoryRepository : TodoRepository {
         todoStorage[id] = todo
     }
 
-    override fun getAll(): MutableMap<Int, String> {
-        return todoStorage // Immutable Map으로 변환하여 반환
+    override fun getAll(): Map<Int, String> {
+        return todoStorage.toMap() // Immutable Map으로 변환하여 반환
     }
 
     override fun put(id: Int, todo: String) {

@@ -21,14 +21,13 @@ class TodoRepositoryJpaImpl(
         entityManager.persist(newTodo) // EntityManager를 통해 엔티티 저장
     }
 
-    override fun getAll(): MutableMap<Int, String> {
+    override fun getAll(): Map<Int, String> {
         // JPQL을 이용해 모든 Todo 엔티티를 조회
         val todos = entityManager.createQuery("SELECT t FROM Todo t", Todo::class.java)
             .resultList
 
         // id와 content를 Map으로 변환
         return todos.associate { it.id.toInt() to it.content }
-            .toMutableMap()
     }
 
     override fun put(key: Int, todo: String) {
