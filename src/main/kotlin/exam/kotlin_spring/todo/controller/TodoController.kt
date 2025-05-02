@@ -30,8 +30,8 @@ class TodoController(
 
     @DeleteMapping("")
     fun delete(@RequestBody payload: Map<String, Any>) {
-        val key = extractInt(payload, "key")
-        todoService.delete(key) 
+        val key = extractInt(payload, "key") 
+        todoService.delete(key)
     }
     @ExceptionHandler(value = [Exception::class]) //예외 클래스 지정
     fun handleException(e: RuntimeException): ResponseEntity<HashMap<String, Any>> {
