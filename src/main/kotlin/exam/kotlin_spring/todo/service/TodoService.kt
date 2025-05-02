@@ -19,7 +19,7 @@ class TodoService
     /**
      * 목록가져오기
      */
-    fun getAll():MutableMap<Int,String>{
+    fun getAll(): Map<Int, String> {
         return todoRepository.getAll()
     }
 

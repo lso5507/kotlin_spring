@@ -1,6 +1,8 @@
 package exam.kotlin_spring.todo.controller
 
 import exam.kotlin_spring.todo.service.TodoService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -30,6 +32,14 @@ class TodoController(
     fun delete(@RequestBody payload: Map<String, Any>) {
         val key = extractInt(payload, "key")
         todoService.delete(key)
+    }
+    @ExceptionHandler(value = [Exception::class]) //예외 클래스 지정
+    fun handleException(e: RuntimeException): ResponseEntity<HashMap<String, Any>> {
+        //해시맵에 false와 에러메시지를 넣고 ResponseEntity객체에 담아 반환
+        val result: HashMap<String, Any> = HashMap<String, Any>()
+        result.put("status", false)
+        result.put("message", e.message as String)
+        return ResponseEntity<HashMap<String, Any>>(result, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     // 공통 데이터 추출 기능: 캐스팅 로직을 한곳에 집중
